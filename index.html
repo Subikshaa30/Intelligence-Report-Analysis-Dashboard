@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence Reports Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <button id="reportsBoardToggleBtn" class="geomap-btn" style="margin-right: 150px;">📋 Reports Board</button>
+    <button class="geomap-btn" id="geomapToggleBtn">🗺️ GeoMap</button>
+
+    <!-- TOOLTIP -->
+    <div id="tooltip" class="tooltip"></div>
+
+    <div class="dashboard-container">
+        <!-- HEADER WITH PLAY BUTTON -->
+        <div class="dashboard-header">
+            <div class="header-top">
+                <h1>Intelligence Reports Dashboard
+                     <button id="infoBtn" class="info-button">
+                        <span class="info-icon">?</span>
+                        </button>
+
+                </h1>
+                
+                <p>Explore suspects, plans, timelines, and locations to answer: Who, What, When, and Where.</p>
+            </div>
+            
+        </div>
+        <div id="mainPage"></div>
+        <!-- MAIN CONTENT -->
+        <div class="dashboard-content">
+            <!-- LEFT PANEL: SUSPECT LIST -->
+            <div class="panel left-panel">
+                <div class="panel-header">
+                    <h3>SUSPECT</h3>
+                </div>
+                <div class="panel-content">
+                    <ul id="suspectList" class="suspect-list"></ul>
+                </div>
+            </div>
+
+            <!-- CENTER COLUMN: NETWORK + DETAILS -->
+            <div class="center-wrapper">
+                <!-- NETWORK VISUALIZATION PANEL -->
+                <div class="panel center-panel">
+                    <div class="viz-header-with-button">
+                        <div class="viz-left">
+                            <h3>NETWORK VISUALIZATION</h3>
+                        </div>
+                        <div class="viz-middle">
+                            <button id="playBtn" class="play-button">
+                                <span>▶</span> <span>Play</span>
+                            </button>
+                        </div>
+                        <button id="fullResetBtn" title="Reset Visualization">Reset VIZ</button>
+
+                        <div class="viz-right">
+                            <div class="score-aliases-inline">
+                                <div class="score-item">
+                                    <span class="label">SCORE</span>
+                                    <span class="value" id="scoreValue">-</span>
+                                </div>
+                                <div class="aliases-item">
+                                    <span class="label">ALIASES</span>
+                                    <span class="value" id="aliasesValue">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="networkContainer"></div>
+                </div>
+
+                <!-- DETAILS PANEL -->
+                <div class="panel details-panel">
+                    <div class="panel-content details-grid">
+                        <!-- WHAT DID THEY PLAN TO DO -->
+                        <div class="detail-column">
+                            <div class="section-title">WHAT DID THEY PLAN TO DO?</div>
+                            <ul id="whatList" class="action-list"></ul>
+                        </div>
+
+                        <!-- WHEN & WHERE -->
+                        <div class="detail-column">
+                            <div class="section-title">WHEN & WHERE</div>
+                            <ul id="whenWhereList" class="action-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: PEOPLE INVOLVED -->
+            <div class="panel right-panel right-panel-people">
+                <div class="panel-header">
+                    <h3>PEOPLE INVOLVED</h3>
+                </div>
+                <div class="panel-content">
+                    <ul id="peopleList" class="data-list">
+                        <li class="placeholder">Select a suspect</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: PLACES -->
+            <div class="panel right-panel right-panel-places">
+                <div class="panel-header">
+                    <h3>PLACES</h3>
+                </div>
+                <div class="panel-content">
+                    <ul id="placesList" class="data-list">
+                        <li class="placeholder">Select a suspect</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: ORGANIZATIONS -->
+            <div class="panel right-panel right-panel-orgs">
+                <div class="panel-header">
+                    <h3>ORGANIZATIONS</h3>
+                </div>
+                <div class="panel-content">
+                    <ul id="organizationsList" class="data-list">
+                        <li class="placeholder">Select a suspect</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                        <!-- GEOMAP PAGE (hidden by default) -->
+<div id="geomapPage">
+    <div id="geomapContainer" style="width: 100%; height: 100%;"></div>
+</div>
+
+<!-- Reports Board Overlay -->
+<div id="reportsBoardOverlay" class="reports-board-overlay" style="display:none;">
+  <button id="reportsBoardCloseBtn" class="report-close-btn">&times;</button>
+  <div id="reportsBoardInnerContainer" class="reports-board-inner-container"></div>
+</div>
+
+
+  <!-- Inner container for dialogs to prevent overlay closing on clicks inside -->
+  <div id="reportsBoardInnerContainer" style="position: relative; width: 100%; height: 100%;"></div>
+
+</div>
+
+
+
+    <!-- LOAD DATA FIRST -->
+    <script src="data.js"></script>
+
+    
+    <!-- THEN LOAD MODULES -->
+    <script src="js/dataManager.js"></script>
+    <script src="js/uiController.js"></script>
+    <script src="js/networkVisualizer.js"></script>
+    <script src="js/geomapVisualizer.js"></script>
+    
+    <!-- FINALLY INITIALIZE -->
+    <script src="js/main.js"></script>
+
+  <div id="howtoModal" style="display:block;position:fixed;top:0;left:0;width:100vw;height:100vh; background:rgba(0, 0, 0, 0.3);z-index:3000;">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+      background:#fff;max-width:600px;width:90vw;padding:28px 24px 18px 24px;border-radius:13px;box-shadow:0 4px 16px rgba(0, 0, 0, 0.2);">
+    <div style="position:absolute;top:9px;right:16px;cursor:pointer;font-size:20px;font-weight:bold;color:#888;" id="howtoCloseBtn">&times;</div>
+    <h2 style="margin-bottom:16px;font-size:22px;font-weight:700;color:#1565c0;">How to Use This Dashboard</h2>
+    <ul style="font-size:16px;padding-left:24px;line-height:1.6;color:#333;">
+      <li><strong>Suspects</strong> are arranged in decreasing order of their threat score.</li>
+      <li><strong>First, click on a suspect</strong> to select them and view detailed information including their score, aliases, and what, when, and where they planned.</li>
+      <li>Then, press the <strong>Play</strong> button to visualize reports related to the selected suspect, revealing the people, organizations, and places involved.</li>
+      <li>The right-hand panels display relevant <strong>People</strong>, <strong>Places</strong>, and <strong>Organizations</strong> tied to the selected suspect.</li>
+      <li>Use the <strong>GeoMap</strong> button <span style="font-size:18px;">🗺️</span> on the top right to access an interactive heatmap showing locations and report counts. <em>Hovering</em> over points shows more detail.</li>
+      <li>If any components do not respond or behave unexpectedly, please use the <strong>Reset VIZ</strong> button to reset the visualization.</li>
+      <li>Once the animations for adding reports complete, click on the <strong>Reports Board</strong> button to see each individual report.</li>
+      <li>You can move the individual report tabs anywhere on the board by dragging.</li>
+      <li>The number at the top of each report helps understand the order.</li>
+      <li>Click on the red <strong>×</strong> button on a report to close that board.</li>
+      <li>You can close this help anytime by clicking the <strong>×</strong> in the top-right or clicking outside this box.</li>
+    </ul>
+  </div>
+</div>
+
+
+<div id="networkOverlay" class="network-overlay"></div>
+
+
+
+</body>
+</html>
